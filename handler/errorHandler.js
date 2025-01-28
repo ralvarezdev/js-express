@@ -1,0 +1,63 @@
+// ErrorHandler class is used to handle the errors in the application
+import {FailResponseError} from "../errors.js";
+import {IS_DEBUG} from "@ralvarezdev/js-mode";
+import {ErrorJSendBody, FailJSendBody} from "../response/index.js";
+
+export default class ErrorHandler {
+    #logger
+
+    // Constructor for the ErrorHandler class
+    constructor(logger) {
+        // Set the logger
+        this.#logger = logger;
+    }
+
+    // Handle the error
+    handleError(res, error) {
+        // Log the error
+        if (this.#logger)
+            this.#logger.error(error);
+
+        // Check if it's a fail response error
+        if (error instanceof FailResponseError) {
+            if (IS_DEBUG)
+                res.status(error.status).json(FailJSendBody(error.debugData||error.data, error.code))
+            else
+                res.status(error.status).json(FailJSendBody(error.data, error.code))
+            return
+        }
+
+        // Check if it's an error response error
+        if (error instanceof Error) {
+            // Send the response according to the environment
+            if (IS_DEBUG)
+                res.status(500).json(ErrorJSendBody(error.debugMessage||error.message, error.debugData||error.data,error.code))
+            else
+                res.status(500).json(ErrorJSendBody(error.message, error.data,error.code))
+            return
+        }
+
+        // Send the response according to the environment
+        res.status(500).json(ErrorJSendBody(IS_DEBUG?error.message:"Internal server error"));
+    }
+
+    // Error catcher middleware
+    errorCatcher(error, req, res, next) {
+        // Check if there is an error
+        if (error)
+            // Handle the error
+            this.handleError(res, error);
+        else
+            next();
+    }
+
+    // Error JSON body parser catcher middleware
+    errorJSONBodyParserCatcher(error, req, res, next) {
+        if (error instanceof SyntaxError)
+            // Handle the JSON parsing error
+            this.handleError(res, error);
+        else
+            // Pass the error to the next middleware
+            next(error);
+    }
+}

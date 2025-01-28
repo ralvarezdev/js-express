@@ -1,0 +1,29 @@
+{
+  "name": "@ralvarezdev/js-express",
+  "version": "0.1.0",
+  "description": "Express classes and helper functions for JavaScript projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralvarezdev/js-express.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "express",
+    "expressjs"
+  ],
+  "author": "Ramón Álvarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ralvarezdev/js-express/issues"
+  },
+  "homepage": "https://github.com/ralvarezdev/js-express#readme",
+  "type": "module",
+  "dependencies": {
+    "@ralvarezdev/js-mode": "^0.1.1"
+  }
+}

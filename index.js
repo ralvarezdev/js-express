@@ -11,5 +11,5 @@ export {
     FailJSendDebugResponse,
     ErrorJSendDebugResponse
 } from "./response/index.js";
-export {ErrorResponseError, FailResponseError, ConstraintFailError} from "./errors.js";
+export {ErrorResponseError, FailResponseError, FieldFailError} from "./errors.js";
 export {ErrorHandler, HandleValidation} from "./handler/index.js";

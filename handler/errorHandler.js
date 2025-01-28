@@ -1,4 +1,4 @@
-import {FailResponseError} from "../errors.js";
+import {ErrorResponseError, FailResponseError} from "../errors.js";
 import {IS_DEBUG} from "@ralvarezdev/js-mode";
 import {ErrorJSendBody, FailJSendBody} from "../response/index.js";
 
@@ -14,10 +14,6 @@ export default class ErrorHandler {
 
     // Handle the error
     handleError(res, error) {
-        // Log the error
-        if (this.#logger)
-            this.#logger.error(error);
-
         // Check if it's a fail response error
         if (error instanceof FailResponseError) {
             if (IS_DEBUG)
@@ -27,8 +23,12 @@ export default class ErrorHandler {
             return
         }
 
+        // Log the error
+        if (this.#logger)
+            this.#logger.error(error.message);
+
         // Check if it's an error response error
-        if (error instanceof Error) {
+        if (error instanceof ErrorResponseError) {
             // Send the response according to the environment
             if (IS_DEBUG)
                 res.status(500).json(ErrorJSendBody(error.debugMessage || error.message, error.debugData || error.data, error.code))

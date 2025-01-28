@@ -18,7 +18,7 @@ export class FailResponseError extends Error {
 // ErrorResponseError is a custom error class that is thrown when a response failed by an error
 export class ErrorResponseError extends Error {
     constructor(message, data, code = null, debugMessage=null, debugData = null) {
-         super();
+         super(debugMessage||message);
 
         // Set the message, data, debugMessage, debugData, and code of the error
         this.message = message

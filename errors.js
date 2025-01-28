@@ -35,7 +35,7 @@ export class ErrorResponseError extends Error {
 
 // ConstraintFailError is a custom error class that is thrown a response failed by a constraint error
 export class ConstraintFailError extends FailResponseError {
-    constructor(fieldName, errorStr, status, code) {
-        super({[fieldName]: [errorStr]}, status, code);
+    constructor(status, fieldName, errorStr, code) {
+        super(status,  {[fieldName]: [errorStr]}, code);
     }
 }
